@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./expressive-motion.css";
 import "./mobile-story.css";
+import "./futuristic-theme.css";
 import AuthCallback from "./auth-callback";
 
 export const metadata: Metadata = {

@@ -1,28 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value));
 
 export default function ScrollMotion() {
-  const [reduced, setReduced] = useState(false);
-  const [enabled, setEnabled] = useState(false);
-
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setReduced(media.matches);
-    sync();
-    media.addEventListener("change", sync);
-    return () => media.removeEventListener("change", sync);
-  }, []);
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (media.matches && !enabled) return;
+    if (media.matches) return;
 
     const root = document.querySelector<HTMLElement>(".marketing");
     if (!root) return;
-    document.documentElement.classList.toggle("motion-opt-in", enabled);
     const items = Array.from(root.querySelectorAll<HTMLElement>("[data-scroll-motion]"));
     let frame = 0;
 
@@ -71,7 +59,7 @@ export default function ScrollMotion() {
       root.classList.remove("scroll-motion-ready");
       document.documentElement.classList.remove("motion-opt-in");
     };
-  }, [enabled, reduced]);
+  }, []);
 
-  return reduced ? <button type="button" className="motion-choice" aria-pressed={enabled} onClick={() => setEnabled((value) => !value)}>{enabled ? "Pause scroll effects" : "Enable scroll effects"}</button> : null;
+  return null;
 }
